@@ -1,0 +1,60 @@
+#!/bin/python
+
+import requests
+import json
+import operator
+import sys
+r = requests.get('http://apis.is/petrol')
+data = json.loads(r.text)
+open('/var/www/website/petrol/index.html', 'w').close()
+f = open('/var/www/website/petrol/index.html', 'w')
+
+s = """
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<table class="blueTable">
+<thead>
+<tr>
+<th>Station</th>
+<th>Price</th>
+</tr>
+</thead>
+<tbody>
+"""
+
+f.write(s)
+
+prices = {}
+#price, name, station
+for station in data['results']:
+    mystation = station['name']
+    myprice = station['bensin95']
+    name = station['company']
+    location = name + " " + mystation
+    prices[location] = myprice
+
+sorted_prices = sorted(prices.items(), key=operator.itemgetter(1))
+count = 0
+
+stop = int(sys.argv[1])
+for place, price in sorted_prices:
+    if count >= stop:
+        break
+    else:
+        print "Place: %s -- Price: %s" %(place, price)
+        f.write("<tr><td> {0} </td> \n <td> {1} </td></tr>".format(place.encode("utf-8"),price))
+        count = count + 1 
+
+s = """
+</tr>
+</tbody>
+</table>
+</body>
+</html>
+
+"""
+f.write(s)
