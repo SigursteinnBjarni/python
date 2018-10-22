@@ -12,22 +12,22 @@ class Fraction:
     def __add__(self,other):
         _num = (self.num * other.denom) + (other.num * self.denom)
         _denom = (self.denom * other.denom)
-        return Fraction.simplify(Fraction(_num,_denom))
+        return Fraction(_num,_denom).simplify()
 
     def __mul__(self,other):
         _num = self.num * other.num
         _denom = self.denom * other.denom
-        return Fraction.simplify(Fraction(_num,_denom))
+        return Fraction(_num,_denom).simplify()
 
     def __sub__(self,other):
         _num = (self.num * other.denom) - (other.num * self.denom)
         _denom = (self.denom * other.denom)
-        return Fraction.simplify(Fraction(_num,_denom))
+        return Fraction(_num,_denom).simplify()
         
     def __truediv__(self,other):
         _num = self.num * other.denom
         _denom = self.denom * other.num
-        return Fraction.simplify(Fraction(_num,_denom))
+        return Fraction(_num,_denom).simplify()
 
     def simplify(self):
         GCD1 = set()
